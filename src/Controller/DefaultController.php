@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\EditProductFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -39,11 +40,7 @@ class DefaultController extends AbstractController
             $product = new Product();
         }
 
-        $form = $this->createFormBuilder($product)
-            ->add('title', TextType::class)
-            ->add('price', NumberType::class)
-            ->add('quantity', IntegerType::class)
-            ->getForm();
+        $form = $this->createForm(EditProductFormType::class, $product);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,9 +50,6 @@ class DefaultController extends AbstractController
 
             return $this->redirectToRoute('product_edit', ['id' => $product->getId()]);
         }
-
-        //dd($product, $form);
-
 
         return $this->render('main/default/edit_product.html.twig', [
             'form' => $form->createView()
