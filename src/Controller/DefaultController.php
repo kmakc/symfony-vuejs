@@ -21,7 +21,7 @@ class DefaultController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $productList = $em->getRepository(Product::class)->findAll();
-        dd($productList);
+
 
         return $this->render('main/default/index.html.twig');
     }
